@@ -25,6 +25,8 @@ class Auth
         {
             if( method_exists($this, $params['a']) )
                 $this->{$params['a']}();
+            else
+                \Core\System\Request::e404();
         }
     }
 
