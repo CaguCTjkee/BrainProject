@@ -1,3 +1,5 @@
+PHP 5.6+
+
 Rewrites: http://altorouter.com/usage/rewrite-requests.html
 
 # Apache .htaccess
