@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="templates/{{\Core\System\Setup::$TEMPLATE}}/resours/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="templates/{{\Core\System\Setup::$TEMPLATE}}/resours/css/style.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="templates/{{\Core\System\Setup::$TEMPLATE}}/resours/css/bootstrap.min.css"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="templates/{{\Core\System\Setup::$TEMPLATE}}/resours/css/style.css"
+          crossorigin="anonymous">
+    <title>{{if $title}}{{$title}}{{/if}}</title>
 </head>
 <body>
