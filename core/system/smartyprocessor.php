@@ -34,6 +34,11 @@ class SmartyProcessor extends \Smarty
         $this->right_delimiter = self::RIGHT_DELIMITER;
 
         $this->caching = false;
+
+        // Default assign
+        //        $this->assign([
+        //            'Settings' => new \Core\System\Setup,
+        //        ]);
     }
 
     static function getInstance()
@@ -49,10 +54,10 @@ class SmartyProcessor extends \Smarty
         $moduleTemplate = 'moduleView' . DS . $moduleName . DS . $template;
         if( !is_file(ROOT . DS . self::TEMPLATE_FOLDER . DS . \Core\System\Setup::$TEMPLATE . DS . $moduleTemplate) )
         {
-            $moduleTemplate = 'modules' . DS . $moduleName . DS . 'view' . $template;
+            $moduleTemplate = 'modules' . DS . $moduleName . DS . 'view' . DS . $template;
             if( !is_file(ROOT . DS . self::TEMPLATE_FOLDER . DS . \Core\System\Setup::$TEMPLATE . DS . $moduleTemplate) )
             {
-                \Core\System\Request::e404();
+                \Core\System\Request::e404('404 error', '<p>Template <b>' . $moduleTemplate . '</b> is not found<p>');
 
                 return 'Template not found';
             }

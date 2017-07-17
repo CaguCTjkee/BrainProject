@@ -8,12 +8,19 @@
 
 namespace Core\System;
 
-class Setup extends \Core\Abs\AbstractSetup
+use Core\Abs\AbstractSetup;
+
+class Setup extends AbstractSetup
 {
     function __construct()
     {
         parent::__construct();
 
         self::$LANGUAGE = 'ru';
+    }
+
+    function getTemplate()
+    {
+        return self::$TEMPLATE;
     }
 }

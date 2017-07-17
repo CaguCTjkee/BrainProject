@@ -36,7 +36,7 @@ class FrontController
         {
             $target = explode('#', $match['target']);
             $controller = new $target[0];
-            $controller->{$target[1]}();
+            $controller->{$target[1]}($match['params']);
         }
         else
         {
@@ -48,8 +48,12 @@ class FrontController
     {
         foreach( glob(MODULES . DS . '*') as $module )
         {
-            $module = '\Modules\\' . pathinfo($module, PATHINFO_FILENAME) . '\Controller\Handler::Init';
-            call_user_func_array($module, [$this->router]);
+            $class = '\Modules\\' . pathinfo($module, PATHINFO_FILENAME) . '\Controller\Handler';
+            if( class_exists($class) )
+            {
+                $module = $class . '::Init';
+                call_user_func_array($module, [$this->router]);
+            }
         }
     }
 }

@@ -12,7 +12,10 @@ abstract class AbstractSetup
 {
     static $VERSION = '1.0.0';
     static $AUTHOR = 'CaguCT';
+    static $SITEURL = 'bp.lc';
+    static $HOME = 'http://bp.lc';
     static $TEMPLATE = 'mainTemplate';
+    static $MODULESURL = 'modules';
     static $LANGUAGE = 'en';
 
     function __construct()
