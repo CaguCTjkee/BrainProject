@@ -8,6 +8,8 @@
 
 define('DS', DIRECTORY_SEPARATOR);
 
+define('EL', PHP_EOL);
+
 define('ROOT', __DIR__);
 
 define('CORE_PATH', ROOT . DS . 'core');

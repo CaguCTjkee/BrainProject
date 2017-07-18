@@ -16,7 +16,29 @@ class Setup extends AbstractSetup
     {
         parent::__construct();
 
+        // DB setup
+        $this->dbSetup();
+
+        // HOST setup
+        $this->hostSetup();
+
         self::$LANGUAGE = 'ru';
+    }
+
+    function hostSetup()
+    {
+        self::$SITEURL = self::$_config['host'];
+        self::$HOME = self::$_config['protocol'] . '://' . self::$_config['host'];
+    }
+
+    function dbSetup()
+    {
+        self::$DB_HOST = self::$_config['db_host'];
+        self::$DB_NAME = self::$_config['db_name'];
+        self::$DB_USER = self::$_config['db_user'];
+        self::$DB_PASS = self::$_config['db_pass'];
+        self::$DB_PREFIX = self::$_config['db_prefix'];
+        self::$DB_CHAR = self::$_config['db_char'];
     }
 
     function getTemplate()

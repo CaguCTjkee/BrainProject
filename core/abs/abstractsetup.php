@@ -12,17 +12,32 @@ abstract class AbstractSetup
 {
     static $VERSION = '1.0.0';
     static $AUTHOR = 'CaguCT';
-    static $SITEURL = 'bp.lc';
-    static $HOME = 'http://bp.lc';
+    static $SITEURL = '';
+    static $HOME = '';
     static $TEMPLATE = 'mainTemplate';
     static $MODULESURL = 'modules';
     static $LANGUAGE = 'en';
+    // DB
+    static $DB_HOST = 'localhost';
+    static $DB_NAME = 'resumator';
+    static $DB_USER = 'root';
+    static $DB_PASS = '';
+    static $DB_PREFIX = '';
+    static $DB_CHAR = 'utf8';
+    // config
+    static $_config;
 
     function __construct()
     {
         $this->init();
 
+        $configPath = ROOT . DS . 'config.auto.php';
 
+        if( is_file($configPath) )
+        {
+            include_once $configPath;
+            self::$_config = $_config;
+        }
     }
 
     function init()

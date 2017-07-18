@@ -15,9 +15,20 @@ class FrontController
 
     function __construct()
     {
+        $this->checkInstall();
+
         new \Core\System\SmartyProcessor();
 
         $this->Init();
+    }
+
+    function checkInstall()
+    {
+        if( Setup::$_config['install'] === false )
+        {
+            echo 'Error: core is\'nt install. Run <a href="' . Setup::$HOME . '/install">install</a>.';
+            Request::re_die();
+        }
     }
 
     function Init()

@@ -50,7 +50,7 @@ class Request
         return self::getInstance()->get('HTTP_X_REQUESTED_WITH', 'server') === 'XMLHttpRequest' ? true : false;
     }
 
-    static function bp_die()
+    static function re_die()
     {
         die();
     }

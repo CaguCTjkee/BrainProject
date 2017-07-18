@@ -10,6 +10,6 @@
           crossorigin="anonymous">
     <link rel="stylesheet" href="templates/{{\Core\System\Setup::$TEMPLATE}}/resours/css/style.css"
           crossorigin="anonymous">
-    <title>{{if $title}}{{$title}}{{/if}}</title>
+    <title>{{if !empty($title)}}{{$title}}{{/if}}</title>
 </head>
 <body>
