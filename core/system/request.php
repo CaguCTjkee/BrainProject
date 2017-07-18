@@ -16,11 +16,6 @@ class Request
     {
     }
 
-    function showDetails()
-    {
-        echo ';;123123213';
-    }
-
     static function getInstance()
     {
         if( self::$_instance === null )

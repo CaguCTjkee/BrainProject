@@ -10,6 +10,8 @@ define('DS', DIRECTORY_SEPARATOR);
 
 define('EL', PHP_EOL);
 
+define('SALT', '@!(&RGF)*U#G)GFH_!@IFH#!_(G*V');
+
 define('ROOT', __DIR__);
 
 define('CORE_PATH', ROOT . DS . 'core');

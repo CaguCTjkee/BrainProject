@@ -15,12 +15,7 @@ class Home extends Handler
 {
     function displayIndex()
     {
-        $stmt = DB::run("SELECT * FROM test");
-        while( $row = $stmt->fetch(\PDO::FETCH_LAZY) )
-        {
-            echo $row->name . ' - ' . $row->value . EL;
-        }
-
+        \Modules\Users\Controller\Handler::install();
         die();
 
         \Core\System\SmartyProcessor::getInstance()->moduleDisplay('front/index.tpl', self::MODULE_NAME);
