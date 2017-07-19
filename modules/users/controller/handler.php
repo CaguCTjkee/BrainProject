@@ -10,7 +10,6 @@
 namespace Modules\Users\Controller;
 
 use Core\System\DB;
-use Core\System\Setup;
 use Modules\Users\Model\Api;
 
 class Handler

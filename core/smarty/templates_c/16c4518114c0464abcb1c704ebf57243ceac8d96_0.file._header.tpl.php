@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2017-07-17 18:12:21
+/* Smarty version 3.1.30, created on 2017-07-19 13:02:43
   from "/Volumes/DATA500/00_Windows/Documents/PhpStormProjects/BrainProject/templates/mainTemplate/_header.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_596cd3d5c829e5_77669279',
+  'unifunc' => 'content_596f2e4319e670_04868734',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '16c4518114c0464abcb1c704ebf57243ceac8d96' => 
     array (
       0 => '/Volumes/DATA500/00_Windows/Documents/PhpStormProjects/BrainProject/templates/mainTemplate/_header.tpl',
-      1 => 1500304340,
+      1 => 1500458350,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_596cd3d5c829e5_77669279 (Smarty_Internal_Template $_smarty_tpl) {
+function content_596f2e4319e670_04868734 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -31,10 +31,10 @@ function content_596cd3d5c829e5_77669279 (Smarty_Internal_Template $_smarty_tpl)
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="templates/<?php echo \Core\System\Setup::$TEMPLATE;?>
-/resours/css/bootstrap.min.css"
+/resource/css/bootstrap.min.css"
           crossorigin="anonymous">
     <link rel="stylesheet" href="templates/<?php echo \Core\System\Setup::$TEMPLATE;?>
-/resours/css/style.css"
+/resource/css/style.css"
           crossorigin="anonymous">
     <title><?php if (!empty($_smarty_tpl->tpl_vars['title']->value)) {
 echo $_smarty_tpl->tpl_vars['title']->value;
