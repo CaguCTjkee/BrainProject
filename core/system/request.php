@@ -11,6 +11,7 @@ namespace Core\System;
 class Request
 {
     static $_instance;
+    const TYPE_STRING = 'string';
 
     function __construct()
     {
@@ -24,20 +25,30 @@ class Request
         return self::$_instance;
     }
 
-    function get($param, $type = 'request')
+    function get($param, $type = 'request', $dataType = 'string')
     {
         $type = '_' . strtoupper($type);
 
-        return !empty($$type[$param]) ? $$type[$param] : null;
+        return !empty($GLOBALS[$type][$param]) ? $GLOBALS[$type][$param] : null;
     }
 
     function set($param, $value = null, $type = 'request')
     {
         $type = '_' . strtoupper($type);
 
-        $$type[$param] = $value;
+        $GLOBALS[$type][$param] = $value;
 
-        return $$type[$param];
+        return $GLOBALS[$type][$param];
+    }
+
+    function setCookie($name, $value = "", $expire = 0, $path = "", $domain = "", $secure = false, $httponly = false)
+    {
+        return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
+    }
+
+    function getRequestUri()
+    {
+
     }
 
     static function isAjax()
@@ -47,7 +58,14 @@ class Request
 
     static function re_die()
     {
-        die();
+        exit();
+    }
+
+    static function redirect($location)
+    {
+        header('Location: ' . $location);
+
+        self::re_die();
     }
 
     static function e404($title = '404 error', $content = '<p>Not found</p>')

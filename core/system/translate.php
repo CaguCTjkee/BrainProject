@@ -16,15 +16,19 @@ class Translate
 
     static function _t($string)
     {
-        if( \Core\System\Setup::$LANGUAGE !== 'en' )
+        if( gettype($string) === \Core\System\Request::TYPE_STRING )
         {
-            $langFilePath = ROOT . DS . 'language' . DS . \Core\System\Setup::$LANGUAGE . '.php';
-            if( is_file($langFilePath) && count(self::$_langArray) === 0 )
-            {
-                self::$_langArray = require_once $langFilePath;
-            }
 
-            $string = strtr($string, self::$_langArray);
+            if( \Core\System\Setup::$LANGUAGE !== 'en' )
+            {
+                $langFilePath = ROOT . DS . 'language' . DS . \Core\System\Setup::$LANGUAGE . '.php';
+                if( is_file($langFilePath) && count(self::$_langArray) === 0 )
+                {
+                    self::$_langArray = require_once $langFilePath;
+                }
+
+                $string = strtr($string, self::$_langArray);
+            }
         }
 
         return $string;

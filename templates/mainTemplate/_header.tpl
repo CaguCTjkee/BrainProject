@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="templates/{{\Core\System\Setup::$TEMPLATE}}/resource/css/bootstrap.min.css"
+    <link rel="stylesheet" href="{{\Core\System\Setup::$HOME}}/templates/{{\Core\System\Setup::$TEMPLATE}}/resource/css/bootstrap.min.css"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="templates/{{\Core\System\Setup::$TEMPLATE}}/resource/css/style.css"
+    <link rel="stylesheet" href="{{\Core\System\Setup::$HOME}}/templates/{{\Core\System\Setup::$TEMPLATE}}/resource/css/font-awesome.min.css"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="{{\Core\System\Setup::$HOME}}/templates/{{\Core\System\Setup::$TEMPLATE}}/resource/css/style.css"
           crossorigin="anonymous">
     <title>{{if !empty($title)}}{{$title}}{{/if}}</title>
 </head>

@@ -10,7 +10,10 @@
 namespace Modules\Users\Controller;
 
 use Core\System\DB;
+use Core\System\Request;
+use Core\System\SmartyProcessor;
 use Modules\Users\Model\Api;
+use Modules\Users\Model\User;
 
 class Handler
 {
@@ -19,7 +22,17 @@ class Handler
 
     static function Init($router)
     {
-        $router->map('GET', '/auth/[a:a]', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Auth#actionIndex', self::MODULE_NAME);
+        $user = null;
+        $hash = Request::getInstance()->get('hash', 'cookie');
+        if( !empty($hash) )
+        {
+            $user = Api::getInstance()->autoLogin($hash);
+        }
+
+        SmartyProcessor::getInstance()->assign('user_data', $user);
+        SmartyProcessor::getInstance()->assign('is_login', User::$is_login);
+
+        $router->map('GET|POST', '/auth/[a:a]', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Auth#actionIndex', self::MODULE_NAME);
     }
 
     static function install($user = [])
@@ -43,7 +56,7 @@ class Handler
                     `date_last` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
                     `pass` VARCHAR(64) NOT NULL ,
                     `salt` VARCHAR(40) NOT NULL ,
-                    `activate` INT(1) NOT NULL ,
+                    `activate` INT(1) NOT NULL DEFAULT 0 ,
                     PRIMARY KEY (`user_id`)';
         DB::create(Api::DB_TABLE_USERS, $fields_sql);
 
@@ -78,7 +91,7 @@ class Handler
             $user = [
                 'login' => 'admin',
                 'mail' => 'admin@resumator.loc',
-                'pass' => sha1('admin' . $user_salt . SALT),
+                'pass' => \Modules\Users\Model\Api::passHash('admin', $user_salt),
                 'salt' => $user_salt,
                 'activate' => 1,
             ];

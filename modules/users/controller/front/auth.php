@@ -8,15 +8,17 @@
 
 namespace Modules\Users\Controller\Front;
 
+use Modules\Users\Controller\Handler;
 use Modules\Users\Model\Api;
+use Modules\Users\Model\View;
 
 class Auth
 {
-    private $api;
+    private $view;
 
     function __construct()
     {
-        $this->api = new Api();
+        $this->view = new View();
     }
 
     function actionIndex($params = [])
@@ -30,8 +32,19 @@ class Auth
         }
     }
 
+    function login()
+    {
+        $this->view->auth(Handler::MODULE_NAME);
+    }
+
+    function register()
+    {
+        $this->view->register(Handler::MODULE_NAME);
+    }
+
     function logout()
     {
-        $this->api->logout();
+        $request_uri = \Core\System\Request::getInstance()->get('HTTP_REFERER', 'server', \Core\System\Request::TYPE_STRING);
+        Api::getInstance()->logout($request_uri);
     }
 }

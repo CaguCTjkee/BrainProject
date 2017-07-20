@@ -71,11 +71,14 @@ class DB
         }
     }
 
-    public static function getRow($table, $where = '', $args = [])
+    public static function getRow($table_or_sql, $where_or_args = '1=1', $args = [])
     {
-        $where = !empty($where) ? ' WHERE ' . $where : null;
+        $where_or_args = is_array($where_or_args) ? $where_or_args : ' WHERE ' . $where_or_args;
 
-        return self::run('SELECT * FROM ' . Setup::$DB_PREFIX . $table . $where, $args)->fetch(\PDO::FETCH_LAZY);
+        if( is_array($where_or_args) === false )
+            return self::run('SELECT * FROM ' . Setup::$DB_PREFIX . $table_or_sql . $where_or_args, $args)->fetch(\PDO::FETCH_LAZY);
+        else
+            return self::run($table_or_sql, $where_or_args)->fetch(\PDO::FETCH_LAZY);
     }
 
     public static function insert($table, $data = [])

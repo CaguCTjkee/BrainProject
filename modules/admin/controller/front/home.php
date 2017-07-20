@@ -18,6 +18,8 @@ class Home extends Handler
         if( Api::isLogin() )
             \Core\System\SmartyProcessor::getInstance()->moduleDisplay('front/index.tpl', self::MODULE_NAME);
         else
-            \Core\System\SmartyProcessor::getInstance()->moduleDisplay('front/auth.tpl', self::MODULE_NAME);
+        {
+            \Core\System\Request::redirect('/auth/login');
+        }
     }
 }
