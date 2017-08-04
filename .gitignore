@@ -3,3 +3,4 @@
 core/smarty/templates_c/*
 core/smarty/configs/*
 core/smarty/cache/*
+!/templates/mainTemplate/moduleView/users/front/cabinet.tpl

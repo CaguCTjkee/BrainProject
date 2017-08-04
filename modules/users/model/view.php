@@ -13,6 +13,12 @@ use Modules\Users\Controller\Front\Auth;
 
 class View
 {
+
+    function unAuth($module_name)
+    {
+        \Core\System\SmartyProcessor::getInstance()->moduleDisplay('front/unAuth.tpl', $module_name);
+    }
+
     function auth($module_name)
     {
         if( User::$is_login )

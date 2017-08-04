@@ -7,4 +7,12 @@ return [
     'is not found' => 'не найден',
     'Wrong login or password' => 'Не правильный логин или пароль',
     'User already login' => 'Пользователь уже залогинен',
+    'Login is empty' => 'Логин не заполнен',
+    'Mail is empty' => 'Электронная почта не заполнена',
+    'Password is empty' => 'Пароль не заполнен',
+    'Password repeat is empty' => 'Повтор пароля не заполнен',
+    'Password is not equal to password repeat' => 'Пароли не совпадают',
+    'User info changed' => 'Информация обновлена',
+    'Registration success. Now you can use your login and password for login.' => 'Регистрация успешна. Теперь вы можете
+    Войти под своим логином и паролем.',
 ];

@@ -22,17 +22,18 @@ class Handler
 
     static function Init($router)
     {
-        $user = null;
+        $user_data = null;
         $hash = Request::getInstance()->get('hash', 'cookie');
         if( !empty($hash) )
         {
-            $user = Api::getInstance()->autoLogin($hash);
+            $user_data = Api::getInstance()->autoLogin($hash);
         }
 
-        SmartyProcessor::getInstance()->assign('user_data', $user);
+        SmartyProcessor::getInstance()->assign('user_data', $user_data);
         SmartyProcessor::getInstance()->assign('is_login', User::$is_login);
 
-        $router->map('GET|POST', '/auth/[a:a]', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Auth#actionIndex', self::MODULE_NAME);
+        $router->map('GET|POST', '/auth/[a:a]', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Auth#actionIndex', 'Auth');
+        $router->map('GET|POST', '/cabinet', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Cabinet#actionIndex', 'Cabinet');
     }
 
     static function install($user = [])
@@ -73,16 +74,28 @@ class Handler
         DB::create(Api::DB_TABLE_USERS_HASH, $fields_sql);
 
         /**
-         * DB table users_hash ver 1.0.0
+         * DB table users_info ver 1.0.0
          *
          * user_id
-         * date
-         * hash
+         * first_name
+         * last_name
+         * adult
+         * date_birthday
+         * phone
+         * mail
+         * city
+         * avatar
          */
         $fields_sql = '`user_id` INT(11) NOT NULL ,
-                       `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-                       `hash` VARCHAR(40) NOT NULL';
-        DB::create(Api::DB_TABLE_USERS_HASH, $fields_sql);
+                       `first_name` VARCHAR(40) NULL DEFAULT NULL ,
+                       `last_name` VARCHAR(40) NULL DEFAULT NULL ,
+                       `adult` VARCHAR(10) NULL DEFAULT NULL ,
+                       `date_birthday` DATE NULL DEFAULT NULL ,
+                       `phone` VARCHAR(40) NULL DEFAULT NULL ,
+                       `mail` VARCHAR(80) NULL DEFAULT NULL ,
+                       `city` VARCHAR(255) NULL DEFAULT "Запорожье" ,
+                       `avatar` VARCHAR(255) NULL DEFAULT NULL';
+        DB::create(Api::DB_TABLE_USERS_INFO, $fields_sql);
 
         // Default user
         $user_salt = \Modules\Users\Model\Api::generateSalt(40);

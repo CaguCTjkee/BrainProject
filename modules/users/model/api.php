@@ -38,10 +38,19 @@ class Api
 
         if( $user )
         {
-            return new User($user);
+            DB::update(self::DB_TABLE_USERS_HASH, ['hash' => $hash], ['date' => date("Y-m-d H:i:s")]);
+
+            $this->updateDateHash($hash);
+
+            return User::getInstance($user);
         }
 
         return false;
+    }
+
+    function updateDateHash($hash)
+    {
+
     }
 
     function login($login, $pass)
@@ -95,10 +104,17 @@ class Api
         return DB::getRow(self::DB_TABLE_USERS, 'login = ?', [$login]);
     }
 
+    /**
+     * @param array $user
+     */
     function createUser($user)
     {
         if( $user )
+        {
             DB::insert(self::DB_TABLE_USERS, $user);
+
+            DB::insert(self::DB_TABLE_USERS_INFO, ['user_id' => $user['id']]);
+        }
     }
 
     static function isLogin()
@@ -125,6 +141,35 @@ class Api
             else
                 \Core\System\SmartyProcessor::getInstance()->assign('error', 'Wrong login or password');
         }
+    }
+
+    static function cabinetProcessing($user_id)
+    {
+        $error = '';
+
+        $params = [
+            'avatar' => \Core\System\Request::getInstance()->get('avatar', 'post', \Core\System\Request::TYPE_STRING),
+            'first_name' => \Core\System\Request::getInstance()->get('first_name', 'post', \Core\System\Request::TYPE_STRING),
+            'last_name' => \Core\System\Request::getInstance()->get('last_name', 'post', \Core\System\Request::TYPE_STRING),
+            'adult' => \Core\System\Request::getInstance()->get('adult', 'post', \Core\System\Request::TYPE_STRING),
+            'date_birthday' => \Core\System\Request::getInstance()->get('date_birthday', 'post', \Core\System\Request::TYPE_STRING),
+            'phone' => \Core\System\Request::getInstance()->get('phone', 'post', \Core\System\Request::TYPE_STRING),
+            'city' => \Core\System\Request::getInstance()->get('city', 'post', \Core\System\Request::TYPE_STRING),
+        ];
+
+        if( empty($error) )
+        {
+            \Modules\Users\Model\Api::getInstance()->saveUserInfo($user_id, $params);
+            \Core\System\SmartyProcessor::getInstance()->assign('info', 'User info changed');
+        }
+
+        \Core\System\SmartyProcessor::getInstance()->assign('error', $error);
+    }
+
+    function saveUserInfo($user_id, $params)
+    {
+        $params['date_birthday'] = date("Y-m-d", strtotime($params['date_birthday']));
+        DB::update(self::DB_TABLE_USERS_INFO, ['user_id' => $user_id], $params);
     }
 
     static function registerProcessing()
@@ -160,7 +205,8 @@ class Api
 
             if( $register === true )
             {
-                \Core\System\SmartyProcessor::getInstance()->assign('info', 'Registration success');
+                $info = 'Registration success. Now you can use your login and password for login.';
+                \Core\System\SmartyProcessor::getInstance()->assign('info', $info);
             }
             else
                 $error = $register;
@@ -175,7 +221,16 @@ class Api
 
         // todo-caguct: test for params
 
-        if( true ) // todo-caguct: change if
+        if( Request::validation($user['login'], Request::TYPE_STRING) )
+            $return = 'Login isn\'t valid';
+
+        if( DB::getRow(self::DB_TABLE_USERS, 'login = ?', [$user['login']]) !== false )
+            $return = 'User with this login is exist';
+
+        if( DB::getRow(self::DB_TABLE_USERS, 'mail = ?', [$user['mail']]) !== false )
+            $return = 'User with this mail is exist';
+
+        if( $return === true )
         {
             $user['salt'] = \Modules\Users\Model\Api::generateSalt(40);
             $user['pass'] = self::passHash($user['pass'], $user['salt']);
@@ -190,9 +245,7 @@ class Api
 
     static function passHash($pass, $user_salt)
     {
-        $pass = sha1($pass . $user_salt . SALT);
-
-        return $pass;
+        return sha1($pass . $user_salt . SALT);
     }
 
     static function generateSalt($num = 10, $sign = true)

@@ -12,6 +12,9 @@ class Request
 {
     static $_instance;
     const TYPE_STRING = 'string';
+    const TYPE_INT = 'integer';
+    const TYPE_FLOAT = 'float';
+    const TYPE_BOOLEAN = 'boolean';
 
     function __construct()
     {
@@ -49,6 +52,30 @@ class Request
     function getRequestUri()
     {
 
+    }
+
+    static function validation($value, $type)
+    {
+        if( $type === self::TYPE_STRING )
+        {
+            if( preg_match("#^[a-zA-Zа-яёЁА-Я0-9-_.]+$#isu", $value) )
+                return $value;
+        }
+        elseif( $type === self::TYPE_FLOAT )
+        {
+            return (float)$value;
+        }
+        elseif( $type === self::TYPE_INT )
+        {
+            return (int)$value;
+        }
+        elseif( $type === self::TYPE_BOOLEAN )
+        {
+            if( $value === true )
+                return $value;
+        }
+
+        return false;
     }
 
     static function isAjax()

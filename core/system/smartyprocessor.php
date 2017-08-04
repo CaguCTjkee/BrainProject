@@ -33,8 +33,6 @@ class SmartyProcessor extends \Smarty
         $this->left_delimiter = self::LEFT_DELIMITER;
         $this->right_delimiter = self::RIGHT_DELIMITER;
 
-        $this->caching = false;
-
         // Default assign
         //        $this->assign([
         //            'Settings' => new \Core\System\Setup,

@@ -1,5 +1,9 @@
 <?php
 $_config = [
+    'title' => 'Название сайта',
+    'keywords' => 'ключевые, слова',
+    'description' => 'Описание',
+
     'protocol' => 'http',
     'host' => 'bp.lc',
     'db_host' => 'localhost',
