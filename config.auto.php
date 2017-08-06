@@ -13,4 +13,5 @@ $_config = [
     'db_prefix' => 're_',
     'db_char' => 'utf8',
     'install' => true,
+    'avatar_size' => '5',
 ];

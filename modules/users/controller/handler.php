@@ -34,6 +34,9 @@ class Handler
 
         $router->map('GET|POST', '/auth/[a:a]', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Auth#actionIndex', 'Auth');
         $router->map('GET|POST', '/cabinet', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Cabinet#actionIndex', 'Cabinet');
+
+        // ajax upload avatar
+        $router->map('POST', '/cabinet/upload', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Upload#actionIndex', 'Upload');
     }
 
     static function install($user = [])

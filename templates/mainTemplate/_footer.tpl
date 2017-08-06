@@ -17,4 +17,6 @@
         crossorigin="anonymous"></script>
 <script src="{{\Core\System\Setup::$HOME}}/templates/{{\Core\System\Setup::$TEMPLATE}}/resource/js/libs.js"
         crossorigin="anonymous"></script>
+<script src="{{\Core\System\Setup::$HOME}}/templates/{{\Core\System\Setup::$TEMPLATE}}/resource/js/upload.js"
+        crossorigin="anonymous"></script>
 </body></html>

@@ -1,0 +1,58 @@
+.rotate90 {
+  transform: rotate(90deg);
+}
+.rotate180 {
+  transform: rotate(180deg);
+}
+.hidden {
+  display: none !important;
+}
+.container-white {
+  background: #ffffff;
+  position: relative;
+  z-index: 5;
+}
+.main-section {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: url(../img/maxresdefault2.jpg) no-repeat top center;
+  position: relative;
+  top: -3.5rem;
+  z-index: 1;
+}
+.main-section .main-section-container {
+  width: 100%;
+}
+.banner {
+  width: 100%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  background: url(../img/girl.jpg) no-repeat 100%;
+}
+.best-resume img {
+  width: 4rem;
+  height: 4rem;
+  margin: 0.3rem .5rem .5rem 0;
+  float: left;
+}
+.cabinet-avatar {
+  max-width: 100px;
+  margin: 0 auto;
+  padding-top: 1rem;
+}
+.block-content {
+  padding: .5rem;
+  background: #eee;
+}
+.caguct:before {
+  content: "By CaguCT";
+  color: #000000;
+  float: right;
+}

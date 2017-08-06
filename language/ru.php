@@ -15,4 +15,9 @@ return [
     'User info changed' => 'Информация обновлена',
     'Registration success. Now you can use your login and password for login.' => 'Регистрация успешна. Теперь вы можете
     Войти под своим логином и паролем.',
+    'Unexpected format of file' => 'Не поддерживаемый формат файла',
+    'Is not ajax' => 'Это не ajax запрос',
+    '$_FILES empty or you did not login' => '$_FILES пуст или ты не залогинен',
+    'File is too large' => 'Файл слишком большой',
+    'Something wrong' => 'Что-то пошло не так',
 ];

@@ -1,8 +1,8 @@
 jQuery(function() {
 
-    jQuery('#datetimepicker').datetimepicker({
-        // locale: 'ru'
-    });
+    // jQuery('#datetimepicker').datetimepicker({
+    //     // locale: 'ru'
+    // });
 
     jQuery(document.body).on('click', '.add-block', function(e) {
         e.preventDefault();

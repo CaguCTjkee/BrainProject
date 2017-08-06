@@ -1,14 +1,17 @@
 function xhr_complete(dis) {
-    jQuery('form').show();
+
     var response = dis.responseText;
     if(response) {
-        response = jQuery.parseJSON(response);
-        jQuery('#response').removeClass()
-        .addClass((response.status == 1) ? 'upload-success' : 'upload-error')
-        .html(response.result);
+        response = JSON.parse(response);
+        console.log(response);
 
-        if(response.result_tpl !== null) {
-            jQuery('.result').html(response.result_tpl);
+        if(response.error !== '')
+            alert(response.error);
+        else {
+            if(typeof response.success !== "undefined") {
+                jQuery('input[name="avatar"]').val(response.success);
+                jQuery('.cabinet-avatar').attr('src', response.success);
+            }
         }
     }
 }
@@ -17,70 +20,73 @@ jQuery(function() {
 
     // ajax button
     if(jQuery('.ajax-button').length > 0) {
-        jQuery('.ajax-button')
+        jQuery('.ajax-button').attr('type', 'button');
+        jQuery('body').append('<form class="ajaxupload hidden" action="/cabinet/upload" method="post" ' +
+            'enctype="multipart/form-data">' +
+            '<label for="selectfile"><input type="file" name="selectfile" id="selectfile"></label>' +
+            '</form>');
+
+        jQuery(document.body).on('click', '.ajax-button', function(e) {
+            e.preventDefault();
+
+            jQuery('.ajaxupload label').click();
+        });
     }
 
     // ajax upload
-    if(jQuery('.ajaxupload').length > 0) {
-        jQuery('#selectfile').on('change', function(e) {
-            filename = jQuery(this).val();
-            if(filename.substring(3, 11) == 'fakepath') {
-                filename = filename.substring(12);
-            }// remove c:\fake at beginning from localhost chrome
-            jQuery('#response').removeClass().text(filename);
-        });
-        jQuery('.ajaxupload').on('submit', function(e) {
+    jQuery(document.body).on('change', '#selectfile', function(e) {
+        jQuery('.ajaxupload').submit();
+    });
+    jQuery(document.body).on('submit', '.ajaxupload', function(e) {
 
-            // test
-            errors = false;
+        // test
+        errors = false;
 
-            filename = jQuery('#selectfile').val();
-            if(filename.substring(3, 11) == 'fakepath') {
-                filename = filename.substring(12);
-            }// remove c:\fake at beginning from localhost chrome
+        filename = jQuery('#selectfile').val();
+        if(filename.substring(3, 11) == 'fakepath') {
+            filename = filename.substring(12);
+        }// remove c:\fake at beginning from localhost chrome
 
-            if(filename == '') {
-                errors = true;
-                jQuery('#response').removeClass().addClass('upload-error').html('Файл не выбран');
-            }
+        if(filename == '') {
+            errors = true;
+            jQuery('#response').removeClass().addClass('upload-error').html('Файл не выбран');
+        }
 
-            if(!errors) {
-                var donesave = 0;
-                jQuery('#response').removeClass().addClass('upload-progress').html('<div class="progress-bar"></div><div class="progress-percent"></div>');
+        if(!errors) {
+            var donesave = 0;
 
-                var xhr = new XMLHttpRequest();
-                if(xhr.upload) {
-                    xhr.upload.onprogress = function(event) {
-                        var done = event.position || event.loaded;
-                        var total = event.totalSize || event.total;
+            console.log('filename ' + filename);
 
-                        percent = (Math.floor(done / total * 1000) / 10) + '%';
-                        speed = ((done - donesave) / 1024 / 1024 / 8).toFixed(2) + ' мб&frasl;сек';
-                        donesave = done;
+            var xhr = new XMLHttpRequest();
+            if(xhr.upload) {
+                xhr.upload.onprogress = function(event) {
+                    var done = event.position || event.loaded;
+                    var total = event.totalSize || event.total;
 
-                        jQuery('.progress-bar').css('width', percent);
-                        jQuery('.progress-percent').html(filename + ' - ' + percent + ' ' + speed);
-                    }
+                    percent = (Math.floor(done / total * 1000) / 10) + '%';
+                    donesave = done;
+
+                    console.log(percent);
                 }
-                xhr.onreadystatechange = function(e) {
-                    if(4 == this.readyState) {
-                        xhr_complete(this);
-                    }
-                };
-                var input = jQuery('input[name=file]');
-                var file = input[0].files[0];
-                var url = input.closest('form').prop('action');
-                xhr.open('POST', url);
-
-                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-
-                var formData = new FormData();
-                formData.append("file", file);
-
-                xhr.send(formData);
-                e.preventDefault();
             }
-            return false;
-        });
-    }
+            xhr.onreadystatechange = function(e) {
+                if(4 == this.readyState) {
+                    xhr_complete(this);
+                }
+            };
+            var input = jQuery('#selectfile');
+            var file = input[0].files[0];
+            var url = input.closest('form').prop('action');
+            xhr.open('POST', url);
+
+            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+            var formData = new FormData();
+            formData.append("file", file);
+
+            xhr.send(formData);
+            e.preventDefault();
+        }
+        return false;
+    });
 });
