@@ -29,7 +29,7 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="/" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="/">
                                 <i class="ti-back-left"></i>
                                 <p>На сайт</p>
                             </a>
@@ -57,6 +57,14 @@
                         Добавить
                     {{/if}}
                     категорию</h3>
+
+                {{if !empty($error)}}
+                    <div class="alert alert-danger">{{$error}}</div>
+                {{/if}}
+
+                {{if !empty($info)}}
+                    <div class="alert alert-info">{{$info}}</div>
+                {{/if}}
 
                 <form {{if !empty($category)}}action="/admin/resume/editCategory/{{$category.category_id}}"
                       {{else}}action="/admin/resume/addCategory"{{/if}} method="post">

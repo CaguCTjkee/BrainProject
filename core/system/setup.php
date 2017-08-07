@@ -10,6 +10,10 @@ namespace Core\System;
 
 use Core\Abs\AbstractSetup;
 
+/**
+ * Class Setup
+ * @package Core\System
+ */
 class Setup extends AbstractSetup
 {
     function __construct()

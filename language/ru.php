@@ -20,4 +20,5 @@ return [
     '$_FILES empty or you did not login' => '$_FILES пуст или ты не залогинен',
     'File is too large' => 'Файл слишком большой',
     'Something wrong' => 'Что-то пошло не так',
+    'Category was edit' => 'Категория была отредактирована',
 ];

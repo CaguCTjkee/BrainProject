@@ -5,7 +5,7 @@
 <div class="container main-content">
     <div class="row">
         <div class="col-12 col-sm-8 mx-auto">
-            <div class="h2 mt-4 mb-4 text-center">Ваши резюме</div>
+            <div class="h2 mt-4 mb-4 text-center">Мои резюме</div>
 
             {{if !empty($list)}}
                 <ul class="list-group">

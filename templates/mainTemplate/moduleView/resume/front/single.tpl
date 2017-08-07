@@ -16,7 +16,8 @@
 
             <div class="cart row">
                 <div class="col-md-3">
-                    <img src="{{$user_info.avatar}}" alt="{{$user_data->getLogin()}}" class="resume-avatar">
+                    <img src="{{if !empty($user_info.avatar)}}{{$user_info.avatar}}{{else}}/upload/default-avatar.png{{/if}}"
+                         alt="{{$user_data->getLogin()}}" class="resume-avatar">
                 </div>
                 <div class="col-md-9">
 
@@ -84,17 +85,17 @@
                         </p>
                     {{/if}}
 
-                    {{if !empty($exp.date_start)}}
-                        <p>
-                            <strong>Период работы:</strong>
-                            c {{$exp.date_start}} по
-                            {{if $exp.present_time == 1}}
-                                настоящее время
-                            {{else}}
-                                {{$exp.date_end}}
-                            {{/if}}
-                        </p>
-                    {{/if}}
+                    {{*{{if !empty($exp.date_start)}}*}}
+                        {{*<p>*}}
+                            {{*<strong>Период работы:</strong>*}}
+                            {{*c {{$exp.date_start}} по*}}
+                            {{*{{if $exp.present_time == 1}}*}}
+                                {{*настоящее время*}}
+                            {{*{{else}}*}}
+                                {{*{{$exp.date_end}}*}}
+                            {{*{{/if}}*}}
+                        {{*</p>*}}
+                    {{*{{/if}}*}}
 
                 {{/foreach}}
             {{/if}}

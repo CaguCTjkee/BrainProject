@@ -10,6 +10,7 @@ namespace modules\users\controller\admin;
 
 use Core\System\DB;
 use Core\System\Meta;
+use Core\System\Request;
 use Core\System\Setup;
 use Core\System\SmartyProcessor;
 
@@ -38,6 +39,16 @@ class User
             }
         }
     }
+    function delete($id)
+    {
+        $user = DB::getRow(\Modules\Users\Model\Api::DB_TABLE_USERS, 'user_id = ?', [$id]);
+        if( $user )
+        {
+            \Modules\Users\Model\Api::getInstance()->deleteUser($user['user_id']);
+            \Core\System\Request::redirect('/admin/user/edit');
+
+        }
+    }
 
     function edit($id)
     {
@@ -56,30 +67,31 @@ class User
         }
         else
         {
-            $user_id = User::getInstance()->getUserId();
-            $resume = DB::getRow(Api::DB_TABLE_RESUME, 'user_id = ? AND resume_id = ?', [$user_id, $id]);
+            $user = DB::getRow(\Modules\Users\Model\Api::DB_TABLE_USERS, 'user_id = ?', [$id]);
 
-            if( $resume )
+            if( $user )
             {
+                if( $_POST )
+                {
+                    \Modules\Users\Model\Api::userEditProcessing($user['user_id']);
+                    $user = DB::getRow(\Modules\Users\Model\Api::DB_TABLE_USERS, 'user_id = ?', [$user['user_id']]);
+                }
+
                 $meta = [
-                    'title' => 'Резюме ' . $resume['position'],
-                    'description' => 'Список резюме на сайте ' . Setup::$SITEURL,
+                    'title' => 'Пользователь ' . $user['login'],
+                    'description' => 'Редактирование пользователей ' . Setup::$SITEURL,
                 ];
                 Meta::getInstance()->setMetaArray($meta);
 
-                $user_info = DB::getRow(\Modules\Users\Model\Api::DB_TABLE_USERS_INFO, 'user_id = ?', [User::getInstance()->getUserId()]);
-                $education = DB::getRows(Api::DB_TABLE_RESUME_EDUCATION, 'resume_id = ?', [$resume['resume_id']]);
-                $experience = DB::getRows(Api::DB_TABLE_RESUME_EXPERIENCE, 'resume_id = ?', [$resume['resume_id']]);
+                $user_info = DB::getRow(\Modules\Users\Model\Api::DB_TABLE_USERS_INFO, 'user_id = ?', [$id]);
 
                 $assign = [
-                    'resume' => $resume,
+                    'user' => $user,
                     'user_info' => $user_info,
-                    'education' => $education,
-                    'experience' => $experience,
                 ];
                 SmartyProcessor::getInstance()->assign($assign);
 
-                $this->view->viewSingle(Handler::MODULE_NAME);
+                SmartyProcessor::getInstance()->moduleDisplay('admin/user.tpl', \Modules\Users\Controller\Handler::MODULE_NAME);
             }
             else
                 \Core\System\Request::e404();

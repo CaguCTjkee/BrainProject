@@ -62,6 +62,7 @@ class Api
 
     /**
      * Auth by login and password
+     *
      * @param $login
      * @param $pass
      *
@@ -90,6 +91,7 @@ class Api
 
     /**
      * Set hash on cookies and DB
+     *
      * @param $user_id
      * @param $hash
      */
@@ -134,7 +136,7 @@ class Api
         {
             DB::insert(self::DB_TABLE_USERS, $user);
 
-            DB::insert(self::DB_TABLE_USERS_INFO, ['user_id' => $user['id']]);
+            DB::insert(self::DB_TABLE_USERS_INFO, ['user_id' => $user['user_id']]);
         }
     }
 
@@ -237,6 +239,57 @@ class Api
     }
 
     /**
+     * This function will be activate when we have $_POST in admin
+     *
+     * @param $user_id
+     */
+    static function userEditProcessing($user_id)
+    {
+        $error = '';
+
+        $user = [
+            'login' => Request::getInstance()->get('login', 'post', Request::TYPE_STRING),
+            'mail' => Request::getInstance()->get('mail', 'post', Request::TYPE_STRING),
+            'pass' => Request::getInstance()->get('pass', 'post', Request::TYPE_STRING),
+            'is_admin' => Request::getInstance()->get('is_admin', 'post', Request::TYPE_STRING),
+        ];
+
+        if( empty($user['login']) )
+            $error = 'Login is empty';
+
+        if( empty($user['mail']) )
+            $error = 'Mail is empty';
+
+        // prepare
+        if( !empty($user['pass']) )
+        {
+            $user['salt'] = \Modules\Users\Model\Api::generateSalt(40);
+            $user['pass'] = self::passHash($user['pass'], $user['salt']);
+        }
+        else
+            unset($user['pass']);
+        $user['is_admin'] = !empty($user['is_admin']) ? 1 : 0;
+
+        // prepare user_info
+        $user_info = [
+            'avatar' => Request::getInstance()->get('avatar', 'post', Request::TYPE_STRING),
+            'first_name' => Request::getInstance()->get('first_name', 'post', Request::TYPE_STRING),
+            'last_name' => Request::getInstance()->get('last_name', 'post', Request::TYPE_STRING),
+            'adult' => Request::getInstance()->get('adult', 'post', Request::TYPE_STRING),
+            'date_birthday' => Request::getInstance()->get('date_birthday', 'post', Request::TYPE_STRING),
+            'phone' => Request::getInstance()->get('phone', 'post', Request::TYPE_STRING),
+            'city' => Request::getInstance()->get('city', 'post', Request::TYPE_STRING),
+        ];
+
+        if( empty($error) )
+        {
+            self::getInstance()->updateUser($user_id, $user, $user_info);
+        }
+
+        \Core\System\SmartyProcessor::getInstance()->assign('error', $error);
+    }
+
+    /**
      * This function will be activate when we have $_POST in register
      *
      */
@@ -294,7 +347,7 @@ class Api
 
         // todo-caguct: test for params
 
-        if( Request::validation($user['login'], Request::TYPE_STRING) )
+        if( Request::validation($user['login'], Request::TYPE_STRING) === false )
             $return = 'Login isn\'t valid';
 
         if( DB::getRow(self::DB_TABLE_USERS, 'login = ?', [$user['login']]) !== false )

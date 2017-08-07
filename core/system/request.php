@@ -31,6 +31,9 @@ class Request
 
     function get($param, $type = 'request', $dataType = 'string')
     {
+        if( $dataType === 'integer' )
+            $param = (int)$param;
+
         $type = '_' . strtoupper($type);
 
         return !empty($GLOBALS[$type][$param]) ? $GLOBALS[$type][$param] : null;

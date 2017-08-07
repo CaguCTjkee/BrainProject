@@ -29,7 +29,7 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="/" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="/">
                                 <i class="ti-back-left"></i>
                                 <p>На сайт</p>
                             </a>
@@ -66,14 +66,14 @@
                     <tbody>
                     {{foreach from=$list item="resume"}}
                         <tr>
-                            <td class="text-center">{{$resume.user_id}}</td>
+                            <td class="text-center">{{$resume.resume_id}}</td>
                             <td class="text-center">
                                 <a href="/admin/user/edit/{{$resume.user_id}}" target="_blank">{{$resume.user_id}}</a>
                             </td>
                             <td class="text-center">{{$resume.date_add}}</td>
                             <td class="text-center">{{$resume.position}}</td>
                             <td class="text-center">
-                                <a href="/admin/category/edit/{{$resume.category_id}}" target="_blank">{{$resume.category_id}}</a>
+                                <a href="/admin/resume/editCategory/{{$resume.category_id}}" target="_blank">{{$resume.category_id}}</a>
                             </td>
                             <td class="text-center">
                                 <a href="/admin/resume/edit/{{$resume.resume_id}}"><i class="ti-pencil-alt"></i></a>

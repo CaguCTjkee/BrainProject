@@ -29,7 +29,7 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="/" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="/">
                                 <i class="ti-back-left"></i>
                                 <p>На сайт</p>
                             </a>

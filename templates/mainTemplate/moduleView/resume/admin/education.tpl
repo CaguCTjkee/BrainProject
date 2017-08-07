@@ -1,7 +1,7 @@
 <div class="mb-2">
     <label>Уровень образования</label>
     <select name="education-level[]" class="custom-select w-100">
-        <option value="4">Выберите уроверь образования</option>
+        <option value="">Выберите уроверь образования</option>
         <option value="1" {{if $edu.level == 1}}selected{{/if}}>высшее</option>
         <option value="2" {{if $edu.level == 2}}selected{{/if}}>неоконченное высшее</option>
         <option value="3" {{if $edu.level == 3}}selected{{/if}}>средне-специальное</option>
@@ -22,7 +22,7 @@
 <div class="mb-2">
     <label>Год окончания</label>
     <select name="education-year[]" class="custom-select w-100">
-        <option value="2020">Год</option>
+        <option value="">Год</option>
         <option value="2020" {{if $edu.year == "2020"}}selected{{/if}}>2020</option>
         <option value="2019" {{if $edu.year == "2019"}}selected{{/if}}>2019</option>
         <option value="2018" {{if $edu.year == "2018"}}selected{{/if}}>2018</option>

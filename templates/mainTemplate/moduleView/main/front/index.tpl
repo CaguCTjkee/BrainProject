@@ -100,11 +100,4 @@
         уровня.</p>
 </div>
 
-
-<footer class="container">
-    <hr>
-    <div class="caguct"></div>
-    <p>&copy; Resumator 2017</p>
-</footer>
-
 {{include file="_footer.tpl"}}

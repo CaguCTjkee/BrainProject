@@ -9,6 +9,10 @@
 
 namespace Core\System;
 
+/**
+ * Class Autoload
+ * @package Core\System
+ */
 class Autoload
 {
     const EXT = '.php';
@@ -18,6 +22,9 @@ class Autoload
         spl_autoload_register([$this, 'autoload']);
     }
 
+    /**
+     * @param $class_name
+     */
     function autoload($class_name)
     {
         $class_name = strtolower(strtr($class_name, ['\\' => DS]));

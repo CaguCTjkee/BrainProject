@@ -47,11 +47,11 @@ class Handler
                     `date_add` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
                     `position` VARCHAR(255) NOT NULL ,
                     `category_id` INT(11) NOT NULL DEFAULT 0 ,
-                    `skills` TEXT NOT NULL ,
+                    `skills` TEXT NOT NULL DEFAULT 0 ,
                     `salary` VARCHAR(255) NOT NULL ,
                     `phone` VARCHAR(40) NOT NULL ,
-                    `contacts` TEXT NOT NULL ,
-                    `additional` TEXT NOT NULL ,
+                    `contacts` TEXT NOT NULL DEFAULT NULL ,
+                    `additional` TEXT NOT NULL DEFAULT NULL ,
                     PRIMARY KEY (`resume_id`)';
         DB::create(Api::DB_TABLE_RESUME, $fields_sql);
 

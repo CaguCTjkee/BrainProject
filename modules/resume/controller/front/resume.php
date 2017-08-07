@@ -10,6 +10,7 @@ namespace Modules\Resume\Controller\Front;
 
 use Core\System\DB;
 use Core\System\Meta;
+use Core\System\Request;
 use Core\System\Setup;
 use Core\System\SmartyProcessor;
 use Modules\Resume\Controller\Handler;
@@ -77,6 +78,12 @@ class Resume
 
             if( $resume )
             {
+                if( $_POST )
+                {
+                    Api::addResumeProcessing($resume['resume_id']);
+                    $resume = DB::getRow(Api::DB_TABLE_RESUME, 'user_id = ? AND resume_id = ?', [$user_id, $id]);
+                }
+
                 $meta = [
                     'title' => 'Редактирование резюме ' . $resume['position'],
                     'description' => 'Редактирование резюме на сайте ' . Setup::$SITEURL,
@@ -152,5 +159,17 @@ class Resume
             else
                 \Core\System\Request::e404();
         }
+    }
+
+    function delete($id)
+    {
+        $resume = DB::getRow(Api::DB_TABLE_RESUME, 'user_id = ? AND resume_id = ?', [User::getInstance()->getUserId(), $id]);
+        if( $resume )
+        {
+            Api::deleteResume($resume['resume_id']);
+            Request::redirect('/resume/view');
+        }
+        else
+            \Core\System\Request::e404('Resume not found');
     }
 }
