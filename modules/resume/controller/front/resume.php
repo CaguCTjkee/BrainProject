@@ -34,7 +34,8 @@ class Resume
             {
                 if( User::$is_login )
                 {
-                    $this->{$params['a']}();
+                    $params['b'] = !empty($params['b']) ? $params['b'] : null;
+                    $this->{$params['a']}($params['b']);
                 }
                 else
                 {
@@ -55,7 +56,7 @@ class Resume
         Meta::getInstance()->setMetaArray($meta);
 
         // user_info
-        $assign = DB::get(\Modules\Users\Model\Api::DB_TABLE_USERS_INFO, 'user_id = ?', [\Modules\Users\Model\User::getInstance()->getUserId()]);
+        $assign = DB::get(\Modules\Users\Model\Api::DB_TABLE_USERS_INFO, 'user_id = ?', [User::getInstance()->getUserId()]);
         SmartyProcessor::getInstance()->assign($assign->fetch(\PDO::FETCH_ASSOC));
 
         // categories
@@ -67,14 +68,89 @@ class Resume
         $this->view->add(Handler::MODULE_NAME);
     }
 
-    function view()
+    function edit($id)
     {
-        $meta = [
-            'title' => 'Ваши резюме',
-            'description' => 'Список резюме на сайте ' . Setup::$SITEURL,
-        ];
-        Meta::getInstance()->setMetaArray($meta);
+        if( !empty($id) )
+        {
+            $user_id = User::getInstance()->getUserId();
+            $resume = DB::getRow(Api::DB_TABLE_RESUME, 'user_id = ? AND resume_id = ?', [$user_id, $id]);
 
-        $this->view->view(Handler::MODULE_NAME);
+            if( $resume )
+            {
+                $meta = [
+                    'title' => 'Редактирование резюме ' . $resume['position'],
+                    'description' => 'Редактирование резюме на сайте ' . Setup::$SITEURL,
+                ];
+                Meta::getInstance()->setMetaArray($meta);
+
+                $categories = DB::getRows(Api::DB_TABLE_RESUME_CATEGORY);
+                $user_info = DB::getRow(\Modules\Users\Model\Api::DB_TABLE_USERS_INFO, 'user_id = ?', [User::getInstance()->getUserId()]);
+                $education = DB::getRows(Api::DB_TABLE_RESUME_EDUCATION, 'resume_id = ?', [$resume['resume_id']]);
+                $experience = DB::getRows(Api::DB_TABLE_RESUME_EXPERIENCE, 'resume_id = ?', [$resume['resume_id']]);
+
+                $assign = [
+                    'resume' => $resume,
+                    'user_info' => $user_info,
+                    'education' => $education,
+                    'experience' => $experience,
+                    'categories' => $categories,
+                ];
+                SmartyProcessor::getInstance()->assign($assign);
+
+                $this->view->edit(Handler::MODULE_NAME);
+
+            }
+            else
+                \Core\System\Request::e404();
+        }
+        else
+            \Core\System\Request::e404();
+    }
+
+    function view($id)
+    {
+        if( empty($id) )
+        {
+            $meta = [
+                'title' => 'Ваши резюме',
+                'description' => 'Список резюме на сайте ' . Setup::$SITEURL,
+            ];
+            Meta::getInstance()->setMetaArray($meta);
+
+            $list = DB::getRows(Api::DB_TABLE_RESUME, 'user_id = ?', [User::getInstance()->getUserId()]);
+            SmartyProcessor::getInstance()->assign('list', $list);
+
+            $this->view->view(Handler::MODULE_NAME);
+        }
+        else
+        {
+            $user_id = User::getInstance()->getUserId();
+            $resume = DB::getRow(Api::DB_TABLE_RESUME, 'user_id = ? AND resume_id = ?', [$user_id, $id]);
+
+            if( $resume )
+            {
+                $meta = [
+                    'title' => 'Резюме ' . $resume['position'],
+                    'description' => 'Список резюме на сайте ' . Setup::$SITEURL,
+                ];
+                Meta::getInstance()->setMetaArray($meta);
+
+                $user_info = DB::getRow(\Modules\Users\Model\Api::DB_TABLE_USERS_INFO, 'user_id = ?', [User::getInstance()->getUserId()]);
+                $education = DB::getRows(Api::DB_TABLE_RESUME_EDUCATION, 'resume_id = ?', [$resume['resume_id']]);
+                $experience = DB::getRows(Api::DB_TABLE_RESUME_EXPERIENCE, 'resume_id = ?', [$resume['resume_id']]);
+
+                $assign = [
+                    'resume' => $resume,
+                    'user_info' => $user_info,
+                    'education' => $education,
+                    'experience' => $experience,
+                ];
+                SmartyProcessor::getInstance()->assign($assign);
+
+                $this->view->viewSingle(Handler::MODULE_NAME);
+            }
+            else
+                \Core\System\Request::e404();
+        }
     }
 }

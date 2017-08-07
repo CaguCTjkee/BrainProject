@@ -67,6 +67,16 @@ class DB
             return self::run($table_or_sql, $where_or_args);
     }
 
+    public static function delete($table_or_sql, $where_or_args = '1=0', $args = [])
+    {
+        $where_or_args = is_array($where_or_args) ? $where_or_args : ' WHERE ' . $where_or_args;
+
+        if( is_array($where_or_args) === false )
+            return self::run('DELETE FROM ' . Setup::$DB_PREFIX . $table_or_sql . $where_or_args, $args);
+        else
+            return self::run($table_or_sql, $where_or_args);
+    }
+
     public static function pdoSet($allowed, &$values, $source = array())
     {
         $set = '';

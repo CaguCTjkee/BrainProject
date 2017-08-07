@@ -11,7 +11,8 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
                 <ul class="nav navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/resume/add">Добавить резюме <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/resume/add">Добавить резюме <span
+                                    class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/top">Топ</a>
@@ -32,8 +33,12 @@
                     {{else}}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{$user_data->getLogin()}}</a>
+                               data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">{{$user_data->getLogin()}}</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown01">
+                                {{if $user_data->getIsAdmin() == 1}}
+                                    <a class="dropdown-item" href="/admin" target="_blank">Админ панель</a>
+                                {{/if}}
                                 <a class="dropdown-item" href="/cabinet">Кабинет</a>
                                 <a class="dropdown-item" href="/auth/logout">Выйти</a>
                             </div>

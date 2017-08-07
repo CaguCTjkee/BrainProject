@@ -19,6 +19,11 @@ class Handler
     static function Init($router)
     {
         $router->map('GET|POST', '/resume/[a:a]', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Resume#actionIndex', 'resume');
+        $router->map('GET|POST', '/resume/[a:a]/[i:b]', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Resume#actionIndex', 'resume_full');
+
+        // admin
+        $router->map('GET|POST', '/admin/resume/[a:a]', '\Modules\\' . self::MODULE_NAME . '\Controller\Admin\Resume#actionIndex', 'admin-resume');
+        $router->map('GET|POST', '/admin/resume/[a:a]/[i:b]', '\Modules\\' . self::MODULE_NAME . '\Controller\Admin\Resume#actionIndex', 'admin-resume-id');
     }
 
     static function install()
@@ -27,21 +32,25 @@ class Handler
          * DB table resume ver 1.0.0
          *
          * resume_id
+         * user_id
          * date_add
          * position
          * category_id
          * skills
          * salary
          * phone
+         * contacts
          * additional
          */
         $fields_sql = '`resume_id` INT(11) NOT NULL AUTO_INCREMENT ,
+                    `user_id` INT(11) NOT NULL ,
                     `date_add` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
                     `position` VARCHAR(255) NOT NULL ,
                     `category_id` INT(11) NOT NULL DEFAULT 0 ,
                     `skills` TEXT NOT NULL ,
                     `salary` VARCHAR(255) NOT NULL ,
                     `phone` VARCHAR(40) NOT NULL ,
+                    `contacts` TEXT NOT NULL ,
                     `additional` TEXT NOT NULL ,
                     PRIMARY KEY (`resume_id`)';
         DB::create(Api::DB_TABLE_RESUME, $fields_sql);

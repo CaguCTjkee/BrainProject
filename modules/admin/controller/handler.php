@@ -16,5 +16,6 @@ class Handler
     static function Init($router)
     {
         $router->map('GET|POST', '/admin', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Home#displayIndex', 'admin');
+        $router->map('GET|POST', '/admin/settings', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Settings#displayIndex', 'admin-settings');
     }
 }

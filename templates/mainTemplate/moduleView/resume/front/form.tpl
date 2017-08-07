@@ -5,7 +5,14 @@
 <div class="container main-content">
     <div class="row">
         <div class="col-12 col-sm-8 mx-auto">
-            <div class="h2 mt-4 mb-4 text-center">Добавить резюме</div>
+            <div class="h2 mt-4 mb-4 text-center">
+                {{if !empty($resume)}}
+                    Редактировать
+                {{else}}
+                    Добавить
+                {{/if}}
+                резюме
+            </div>
 
             {{if !empty($error)}}
                 <div class="alert alert-danger">{{$error}}</div>
@@ -20,32 +27,42 @@
                     <div class="mb-3">
                         <label>Желаемая должность</label>
                         <input type="text" name="position" class="form-control"
-                               {{if !empty($smarty.post.login)}}value="{{$smarty.post.login}}"{{/if}}>
+                               {{if !empty($smarty.post.position)}}value="{{$smarty.post.position}}"{{/if}}
+                                {{if !empty($resume.position)}}value="{{$resume.position}}"{{/if}}>
                     </div>
                     <div class="mb-3">
                         <label>Рубрика</label>
                         <select name="category_id" class="custom-select w-100">
                             {{foreach from=$categories item=category}}
-                                <option value="{{$category.id}}">{{$category.name}}</option>
+                                <option value="{{$category.category_id}}"
+                                        {{if !empty($resume.category_id) && $resume.category_id == $category.category_id}}
+                                            selected
+                                        {{/if}}
+                                >{{$category.name}}</option>
                             {{/foreach}}
                         </select>
                     </div>
                     <div class="mb-3">
                         <label>Навыки</label>
-                        <textarea name="skills" class="form-control"></textarea>
+                        <textarea name="skills"
+                                  class="form-control">{{if !empty($smarty.post.skills)}}{{$smarty.post.skills}}{{/if}}{{if !empty($resume.skills)}}{{$resume.skills}}{{/if}}</textarea>
                     </div>
                     <div class="mb-3">
                         <label>Зарплата за месяц</label>
-                        <input type="text" name="salary" class="form-control">
+                        <input type="text" name="salary" class="form-control"
+                               {{if !empty($smarty.post.salary)}}value="{{$smarty.post.salary}}"{{/if}}
+                                {{if !empty($resume.salary)}}value="{{$resume.salary}}"{{/if}}>
                     </div>
                     <div class="mb-5">
                         <label>Телефон</label>
                         <input type="text" name="phone" class="form-control"
-                               {{if !empty($phone)}}value="{{$phone}}"{{/if}}>
+                               {{if !empty($phone) && empty($smarty.post.position)}}value="{{$phone}}"{{/if}}
+                                {{if !empty($smarty.post.phone)}}value="{{$smarty.post.phone}}"{{/if}}
+                                {{if !empty($resume.phone)}}value="{{$resume.phone}}"{{/if}}>
                     </div>
                     <div class="mb-5">
                         <label>Доп. контакты ( Skype, Портфолио, Соц. сети)</label>
-                        <textarea name="contacts" class="form-control"></textarea>
+                        <textarea name="contacts" class="form-control">{{if !empty($smarty.post.contacts)}}{{$smarty.post.contacts}}{{/if}}{{if !empty($resume.contacts)}}{{$resume.contacts}}{{/if}}</textarea>
                     </div>
                     <div class="mb-5 block-parent">
                         <div class="pull-right">
@@ -77,9 +94,9 @@
                     </div>
                     <div class="mb-3">
                         <label>
-                            Дополнительная информация (вледение языками, курсы, тренинги, сертификаты)
+                            Дополнительная информация (владение языками, курсы, тренинги, сертификаты)
                         </label>
-                        <textarea name="additional" class="form-control" rows="7"></textarea>
+                        <textarea name="additional" class="form-control" rows="7">{{if !empty($smarty.post.additional)}}{{$smarty.post.additional}}{{/if}}{{if !empty($resume.additional)}}{{$resume.additional}}{{/if}}</textarea>
                     </div>
                     <button class="btn btn-success" type="submit">Добавить</button>
                 </div>

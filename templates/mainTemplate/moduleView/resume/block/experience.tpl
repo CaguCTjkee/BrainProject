@@ -1,6 +1,6 @@
 <div class="mb-2 block-remove">
     <label class="form-inline">
-        <input type="checkbox" class="form-control never-work" name="never-work"> <span class="ml-2">еще ниг-де не работал</span>
+        <input type="checkbox" class="form-control never-work" name="experience-never_work[]" value="1"> <span class="ml-2">еще ниг-де не работал</span>
     </label>
 </div>
 <div class="never-work-hide">
@@ -19,7 +19,7 @@
             <input type="text" name="experience-date_start[]" class="form-control mr-2">
             по
             <input type="text" name="experience-date_end" class="form-control hidden ml-2">
-            <label><input type="checkbox" name="experience-present_time[]" class="form-control ml-2"> <span
+            <label><input type="checkbox" name="experience-present_time[]" class="form-control ml-2" value="1"> <span
                         class="ml-2">настоящее время</span></label>
         </div>
     </div>

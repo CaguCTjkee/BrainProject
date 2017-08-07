@@ -32,11 +32,16 @@ class Handler
         SmartyProcessor::getInstance()->assign('user_data', $user_data);
         SmartyProcessor::getInstance()->assign('is_login', User::$is_login);
 
+        // front
         $router->map('GET|POST', '/auth/[a:a]', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Auth#actionIndex', 'Auth');
         $router->map('GET|POST', '/cabinet', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Cabinet#actionIndex', 'Cabinet');
 
         // ajax upload avatar
         $router->map('POST', '/cabinet/upload', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Upload#actionIndex', 'Upload');
+
+        // admin
+        $router->map('GET|POST', '/admin/user/[a:a]', '\Modules\\' . self::MODULE_NAME . '\Controller\Admin\User#actionIndex', 'admin-user');
+        $router->map('GET|POST', '/admin/user/[a:a]/[i:b]', '\Modules\\' . self::MODULE_NAME . '\Controller\Admin\User#actionIndex', 'admin-user-id');
     }
 
     static function install($user = [])
@@ -52,6 +57,7 @@ class Handler
          * pass
          * salt
          * activate
+         * is_admin
          */
         $fields_sql = '`user_id` INT(11) NOT NULL AUTO_INCREMENT ,
                     `login` VARCHAR(40) NOT NULL ,
@@ -61,6 +67,7 @@ class Handler
                     `pass` VARCHAR(64) NOT NULL ,
                     `salt` VARCHAR(40) NOT NULL ,
                     `activate` INT(1) NOT NULL DEFAULT 0 ,
+                    `is_admin` INT(1) NOT NULL DEFAULT 0 ,
                     PRIMARY KEY (`user_id`)';
         DB::create(Api::DB_TABLE_USERS, $fields_sql);
 

@@ -19,6 +19,7 @@ class User
     protected $date_last;
     protected $salt;
     protected $activate;
+    protected $is_admin;
     // $_instance
     protected static $_instance;
 
@@ -46,6 +47,7 @@ class User
         $this->date_last = $user->date_last;
         $this->salt = $user->salt;
         $this->activate = $user->activate;
+        $this->is_admin = $user->is_admin;
     }
 
     /**
@@ -110,5 +112,13 @@ class User
     public function getSalt()
     {
         return $this->salt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getisAdmin()
+    {
+        return $this->is_admin;
     }
 }

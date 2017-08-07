@@ -28,6 +28,13 @@ class Api
         return self::$_instance;
     }
 
+    /**
+     * Auth by hash from cookies
+     *
+     * @param $hash
+     *
+     * @return bool|User
+     */
     function autoLogin($hash)
     {
         $user = DB::getRow('SELECT user.* 
@@ -53,6 +60,13 @@ class Api
 
     }
 
+    /**
+     * Auth by login and password
+     * @param $login
+     * @param $pass
+     *
+     * @return bool
+     */
     function login($login, $pass)
     {
         if( !empty($login) )
@@ -63,7 +77,6 @@ class Api
             {
                 if( $user->pass === self::passHash($pass, $user->salt) )
                 {
-                    // todo-caguct: cookie + session
                     $hash = urlencode(self::generateSalt(10));
                     $this->setHash($user->user_id, $hash);
 
@@ -75,6 +88,11 @@ class Api
         return false;
     }
 
+    /**
+     * Set hash on cookies and DB
+     * @param $user_id
+     * @param $hash
+     */
     function setHash($user_id, $hash)
     {
         DB::insert(self::DB_TABLE_USERS_HASH, [
@@ -84,14 +102,12 @@ class Api
         Request::getInstance()->setCookie('hash', $hash, time() + 60 * 60 * 24 * 30, '/');
     }
 
-    function loginByHash()
+    /**
+     * @param $redirect - url where redirect after logout
+     */
+    function logout($redirect = '/')
     {
-    }
-
-    function logout($redirect)
-    {
-        $redirect = !empty($redirect) ? $redirect : '/';
-
+        // remove loop
         if( $redirect === Setup::$HOME . '/auth/logout' )
             $redirect = '/';
 
@@ -99,13 +115,18 @@ class Api
         \Core\System\Request::redirect($redirect);
     }
 
+    /**
+     * @param $login
+     *
+     * @return mixed (array and object)
+     */
     function getUserByLogin($login)
     {
         return DB::getRow(self::DB_TABLE_USERS, 'login = ?', [$login]);
     }
 
     /**
-     * @param array $user
+     * @param array $user [login, mail, pass(passHash(pass, salt), salt, activate, is_admin]
      */
     function createUser($user)
     {
@@ -117,11 +138,55 @@ class Api
         }
     }
 
+    /**
+     * @param $user_id - ID of user
+     * @param array $user - [login, mail, pass(passHash(pass, salt), salt, activate, is_admin]
+     * @param array $user_info - [first_name, last_name, adult, date_birthday(Y-m-d), phone, city, avatar(url)]
+     */
+    function updateUser($user_id, $user, $user_info = [])
+    {
+        if( $user )
+        {
+            DB::update(self::DB_TABLE_USERS, ['user_id' => $user_id], $user);
+        }
+        if( $user_info )
+        {
+            $this->saveUserInfo($user_id, $user_info);
+        }
+    }
+
+    /**
+     * @param $user_id
+     * @param $params
+     */
+    function saveUserInfo($user_id, $params)
+    {
+        $params['date_birthday'] = date("Y-m-d", strtotime($params['date_birthday']));
+        DB::update(self::DB_TABLE_USERS_INFO, ['user_id' => $user_id], $params);
+    }
+
+    /**
+     * @param $user_id
+     */
+    function deleteUser($user_id)
+    {
+        DB::delete(self::DB_TABLE_USERS, 'user_id = ?', [$user_id]);
+        DB::delete(self::DB_TABLE_USERS_INFO, 'user_id = ?', [$user_id]);
+        DB::delete(self::DB_TABLE_USERS_HASH, 'user_id = ?', [$user_id]);
+    }
+
+    /**
+     * @return bool
+     */
     static function isLogin()
     {
         return User::$is_login;
     }
 
+    /**
+     *
+     * @param string $redirect
+     */
     static function authProcessing($redirect = '/')
     {
         $redirect = !empty($redirect) ? $redirect : '/';
@@ -143,18 +208,23 @@ class Api
         }
     }
 
+    /**
+     * This function will be activate when we have $_POST in cabinet
+     *
+     * @param $user_id
+     */
     static function cabinetProcessing($user_id)
     {
         $error = '';
 
         $params = [
-            'avatar' => \Core\System\Request::getInstance()->get('avatar', 'post', \Core\System\Request::TYPE_STRING),
-            'first_name' => \Core\System\Request::getInstance()->get('first_name', 'post', \Core\System\Request::TYPE_STRING),
-            'last_name' => \Core\System\Request::getInstance()->get('last_name', 'post', \Core\System\Request::TYPE_STRING),
-            'adult' => \Core\System\Request::getInstance()->get('adult', 'post', \Core\System\Request::TYPE_STRING),
-            'date_birthday' => \Core\System\Request::getInstance()->get('date_birthday', 'post', \Core\System\Request::TYPE_STRING),
-            'phone' => \Core\System\Request::getInstance()->get('phone', 'post', \Core\System\Request::TYPE_STRING),
-            'city' => \Core\System\Request::getInstance()->get('city', 'post', \Core\System\Request::TYPE_STRING),
+            'avatar' => Request::getInstance()->get('avatar', 'post', Request::TYPE_STRING),
+            'first_name' => Request::getInstance()->get('first_name', 'post', Request::TYPE_STRING),
+            'last_name' => Request::getInstance()->get('last_name', 'post', Request::TYPE_STRING),
+            'adult' => Request::getInstance()->get('adult', 'post', Request::TYPE_STRING),
+            'date_birthday' => Request::getInstance()->get('date_birthday', 'post', Request::TYPE_STRING),
+            'phone' => Request::getInstance()->get('phone', 'post', Request::TYPE_STRING),
+            'city' => Request::getInstance()->get('city', 'post', Request::TYPE_STRING),
         ];
 
         if( empty($error) )
@@ -166,12 +236,10 @@ class Api
         \Core\System\SmartyProcessor::getInstance()->assign('error', $error);
     }
 
-    function saveUserInfo($user_id, $params)
-    {
-        $params['date_birthday'] = date("Y-m-d", strtotime($params['date_birthday']));
-        DB::update(self::DB_TABLE_USERS_INFO, ['user_id' => $user_id], $params);
-    }
-
+    /**
+     * This function will be activate when we have $_POST in register
+     *
+     */
     static function registerProcessing()
     {
         $error = '';
@@ -215,6 +283,11 @@ class Api
         \Core\System\SmartyProcessor::getInstance()->assign('error', $error);
     }
 
+    /**
+     * @param $user
+     *
+     * @return bool|string
+     */
     function register($user)
     {
         $return = true;
@@ -243,11 +316,23 @@ class Api
         return $return;
     }
 
+    /**
+     * @param $pass
+     * @param $user_salt
+     *
+     * @return string
+     */
     static function passHash($pass, $user_salt)
     {
         return sha1($pass . $user_salt . SALT);
     }
 
+    /**
+     * @param int $num
+     * @param bool $sign
+     *
+     * @return string
+     */
     static function generateSalt($num = 10, $sign = true)
     {
         $a = range(0, 9);

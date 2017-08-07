@@ -51,6 +51,9 @@
   padding: .5rem;
   background: #eee;
 }
+.resume-avatar {
+  max-width: 100%;
+}
 .caguct:before {
   content: "By CaguCT";
   color: #000000;

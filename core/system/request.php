@@ -15,6 +15,7 @@ class Request
     const TYPE_INT = 'integer';
     const TYPE_FLOAT = 'float';
     const TYPE_BOOLEAN = 'boolean';
+    const TYPE_ARRAY = 'array';
 
     function __construct()
     {
