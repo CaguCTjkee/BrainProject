@@ -14,6 +14,13 @@ class Translate
     static $_translate = [];
     static $_langArray = [];
 
+    /**
+     * Translate to another language
+     *
+     * @param $string
+     *
+     * @return string
+     */
     static function _t($string)
     {
         if( gettype($string) === \Core\System\Request::TYPE_STRING )
@@ -34,6 +41,14 @@ class Translate
         return $string;
     }
 
+    /**
+     * Russian to english convert
+     *
+     * @param $input
+     * @param bool $lower
+     *
+     * @return mixed|string
+     */
     static function russToLat($input, $lower = true)
     {
         if( $lower == true )

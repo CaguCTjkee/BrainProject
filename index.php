@@ -10,4 +10,4 @@
 include_once __DIR__ . '/core.php';
 
 // View Fron Controller
-$init = new \Core\System\FrontController;
+new \Core\System\FrontController;
