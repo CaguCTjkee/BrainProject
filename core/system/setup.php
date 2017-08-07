@@ -29,12 +29,18 @@ class Setup extends AbstractSetup
         self::$LANGUAGE = 'ru';
     }
 
+    /**
+     * Setap host vars
+     */
     function hostSetup()
     {
         self::$SITEURL = self::$_config['host'];
         self::$HOME = self::$_config['protocol'] . '://' . self::$_config['host'];
     }
 
+    /**
+     * Setup db vars
+     */
     function dbSetup()
     {
         self::$DB_HOST = self::$_config['db_host'];
@@ -45,6 +51,9 @@ class Setup extends AbstractSetup
         self::$DB_CHAR = self::$_config['db_char'];
     }
 
+    /**
+     * @return string template name
+     */
     function getTemplate()
     {
         return self::$TEMPLATE;

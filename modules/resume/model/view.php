@@ -11,6 +11,10 @@ namespace Modules\Resume\Model;
 use Core\System\SmartyProcessor;
 use Modules\Users\Controller\Front\Auth;
 
+/**
+ * Class View - for view templates
+ * @package Modules\Resume\Model
+ */
 class View
 {
     function add($module_name)

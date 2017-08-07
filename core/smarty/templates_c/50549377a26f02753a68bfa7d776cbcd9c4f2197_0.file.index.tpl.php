@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2017-07-19 14:37:14
+/* Smarty version 3.1.30, created on 2017-08-07 18:18:43
   from "/Volumes/DATA500/00_Windows/Documents/PhpStormProjects/BrainProject/templates/mainTemplate/moduleView/main/front/index.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_596f446a1603d3_98281920',
+  'unifunc' => 'content_598884d32a3d96_68151477',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '50549377a26f02753a68bfa7d776cbcd9c4f2197' => 
     array (
       0 => '/Volumes/DATA500/00_Windows/Documents/PhpStormProjects/BrainProject/templates/mainTemplate/moduleView/main/front/index.tpl',
-      1 => 1500464232,
+      1 => 1502119122,
       2 => 'file',
     ),
   ),
@@ -23,7 +23,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:_footer.tpl' => 1,
   ),
 ),false)) {
-function content_596f446a1603d3_98281920 (Smarty_Internal_Template $_smarty_tpl) {
+function content_598884d32a3d96_68151477 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_subTemplateRender("file:_header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 
@@ -129,13 +129,6 @@ $_smarty_tpl->_subTemplateRender("file:_header.tpl", $_smarty_tpl->cache_id, $_s
         исключают утечку конфиденциальной информации, о чем заботится команда профессионалов высокого
         уровня.</p>
 </div>
-
-
-<footer class="container">
-    <hr>
-    <div class="caguct"></div>
-    <p>&copy; Resumator 2017</p>
-</footer>
 
 <?php $_smarty_tpl->_subTemplateRender("file:_footer.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 }

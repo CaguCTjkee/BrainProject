@@ -37,6 +37,11 @@ class User
         return self::$_instance;
     }
 
+    /**
+     * Set User object
+     *
+     * @param object $user
+     */
     private function setUser($user)
     {
         $this->user_id = $user->user_id;

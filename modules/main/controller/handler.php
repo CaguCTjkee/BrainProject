@@ -16,8 +16,5 @@ class Handler
     static function Init($router)
     {
         $router->map('GET', '/', '\Modules\\' . self::MODULE_NAME . '\Controller\Front\Home#displayIndex', 'home');
-        //        more
-        // $router->map('GET', '/about/', '\Modules\Main\Controller\Handler#About', 'about');
-        // $router->map('GET', '/contact/', '\Modules\Main\Controller\Handler#Contact', 'contact');
     }
 }

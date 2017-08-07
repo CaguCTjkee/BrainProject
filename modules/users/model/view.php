@@ -11,9 +11,13 @@ namespace Modules\Users\Model;
 use Core\System\SmartyProcessor;
 use Modules\Users\Controller\Front\Auth;
 
+/**
+ * Class View - for view templates
+ * @package Modules\Users\Model
+ *
+ */
 class View
 {
-
     function unAuth($module_name)
     {
         \Core\System\SmartyProcessor::getInstance()->moduleDisplay('front/unAuth.tpl', $module_name);

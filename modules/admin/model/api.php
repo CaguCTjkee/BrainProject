@@ -21,6 +21,10 @@ class Api
         return self::$_instance;
     }
 
+    /**
+     * Check access to /admin page
+     * @return bool
+     */
     static function checkAccess()
     {
         if( \Modules\Users\Model\Api::isLogin() )
@@ -36,6 +40,9 @@ class Api
         }
     }
 
+    /**
+     * Start process save settings on /admin/setting page
+     */
     static function saveSettingsProcessing()
     {
         $settings = '<?php' . EL . '$_config = ';
@@ -46,6 +53,13 @@ class Api
             \Core\System\Setup::$_config = $_POST;
     }
 
+    /**
+     * Saved settings on file
+     *
+     * @param $settings
+     *
+     * @return bool|int
+     */
     static function saveSettings($settings)
     {
         return file_put_contents(ROOT . DS . self::CONFIG_FILE_NAME, $settings);

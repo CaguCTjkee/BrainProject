@@ -9,6 +9,10 @@
 
 namespace Core\System;
 
+/**
+ * Class FrontController
+ * @package Core\System
+ */
 class FrontController
 {
     public $router;
@@ -17,20 +21,29 @@ class FrontController
     {
         $this->checkInstall();
 
+        // include Smarty
         new \Core\System\SmartyProcessor();
 
+        // Go go go
         $this->Init();
     }
 
+    /**
+     * Check install script
+     */
     function checkInstall()
     {
         if( Setup::$_config['install'] === false )
         {
+            // todo-caguct: start install
             echo 'Error: core is\'nt install. Run <a href="' . Setup::$HOME . '/install">install</a>.';
             Request::re_die();
         }
     }
 
+    /**
+     * Init router
+     */
     function Init()
     {
         // Mapping Routes
@@ -55,6 +68,9 @@ class FrontController
         }
     }
 
+    /**
+     * Include routers
+     */
     function getModulesRouters()
     {
         foreach( glob(MODULES . DS . '*') as $module )

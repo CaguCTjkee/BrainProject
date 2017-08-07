@@ -6,6 +6,8 @@
  * Time: 12:13
  */
 
+// Include core
 include_once __DIR__ . '/core.php';
 
+// View Fron Controller
 $init = new \Core\System\FrontController;

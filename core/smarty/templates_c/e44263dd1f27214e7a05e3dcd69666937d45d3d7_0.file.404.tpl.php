@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2017-07-17 18:10:53
+/* Smarty version 3.1.30, created on 2017-07-21 13:12:02
   from "/Volumes/DATA500/00_Windows/Documents/PhpStormProjects/BrainProject/templates/mainTemplate/404.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_596cd37df23bc8_19295709',
+  'unifunc' => 'content_5971d372247051_31907784',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e44263dd1f27214e7a05e3dcd69666937d45d3d7' => 
     array (
       0 => '/Volumes/DATA500/00_Windows/Documents/PhpStormProjects/BrainProject/templates/mainTemplate/404.tpl',
-      1 => 1500304253,
+      1 => 1500631918,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:_footer.tpl' => 1,
   ),
 ),false)) {
-function content_596cd37df23bc8_19295709 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5971d372247051_31907784 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_subTemplateRender("file:_header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 
@@ -48,29 +48,25 @@ $_smarty_tpl->_subTemplateRender("file:_header.tpl", $_smarty_tpl->cache_id, $_s
 </style>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="error-template">
-                <h1>Oops!</h1>
-                <h2><?php if ($_smarty_tpl->tpl_vars['title']->value) {
+    <div class="error-template">
+        <h1>Oops!</h1>
+        <h2><?php if ($_smarty_tpl->tpl_vars['title']->value) {
 echo $_smarty_tpl->tpl_vars['title']->value;
 }?></h2>
-                <div class="error-details">
-                    <?php if ($_smarty_tpl->tpl_vars['content']->value) {
+        <div class="error-details">
+            <?php if ($_smarty_tpl->tpl_vars['content']->value) {
 echo $_smarty_tpl->tpl_vars['content']->value;
 }?>
-                </div>
-                <div class="error-actions">
-                    <a href="/" class="btn btn-primary btn-lg">
-                        <span class="glyphicon glyphicon-home"></span>
-                        Take Me Home
-                    </a>
-                    <a href="/support" class="btn btn-default btn-lg">
-                        <span class="glyphicon glyphicon-envelope"></span>
-                        Contact Support
-                    </a>
-                </div>
-            </div>
+        </div>
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary btn-lg">
+                <span class="glyphicon glyphicon-home"></span>
+                Take Me Home
+            </a>
+            <a href="/support" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon-envelope"></span>
+                Contact Support
+            </a>
         </div>
     </div>
 </div>

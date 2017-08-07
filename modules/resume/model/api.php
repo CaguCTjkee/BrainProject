@@ -30,6 +30,9 @@ class Api
         return self::$_instance;
     }
 
+    /**
+     * Add processing on _POST on category page
+     */
     static function addCategoryProcessing()
     {
         $name = Request::getInstance()->get('name', 'post', Request::TYPE_STRING);
@@ -40,6 +43,9 @@ class Api
         Request::redirect('/admin/resume/category');
     }
 
+    /**
+     * Add processing on _POST on single category page
+     */
     static function editCategoryProcessing($id)
     {
         self::createCategory(Request::getInstance()->get('name', 'post', Request::TYPE_STRING), null, $id);
@@ -47,10 +53,16 @@ class Api
         return DB::getRow(self::DB_TABLE_RESUME_CATEGORY, 'category_id = ?', [$id]);
     }
 
+    /**
+     * Add processing on _POST on single resume page
+     *
+     * @param int $resume_id
+     */
     static function addResumeProcessing($resume_id = 0)
     {
         $error = '';
 
+        // get params
         $params = [
             'position' => Request::getInstance()->get('position', 'post', Request::TYPE_STRING),
             'category_id' => Request::getInstance()->get('category_id', 'post', Request::TYPE_INT),
@@ -76,6 +88,7 @@ class Api
         if( $resume_id > 0 )
             $params['resume_id'] = $resume_id;
 
+        // Check errors
         if( empty($params['position']) )
             $error = 'Position is empty';
 
@@ -96,6 +109,12 @@ class Api
         \Core\System\SmartyProcessor::getInstance()->assign('error', $error);
     }
 
+    /**
+     * Create resume
+     *
+     * @param $user_id
+     * @param $params
+     */
     function createResume($user_id, $params)
     {
         if( $params )
@@ -157,19 +176,35 @@ class Api
         }
     }
 
+    /**
+     * Delete resume
+     *
+     * @param $resume_id
+     */
     static function deleteResume($resume_id)
     {
         DB::delete(self::DB_TABLE_RESUME, 'resume_id = ?', [$resume_id]);
-        DB::delete(self::DB_TABLE_RESUME_EXPERIENCE, 'resume_id = ?', [$resume_id]);
-        DB::delete(self::DB_TABLE_RESUME_EDUCATION, 'resume_id = ?', [$resume_id]);
+        self::deleteResumeAdditional($resume_id);
     }
 
+    /**
+     * Delete only additional resume
+     *
+     * @param $resume_id
+     */
     static function deleteResumeAdditional($resume_id)
     {
         DB::delete(self::DB_TABLE_RESUME_EXPERIENCE, 'resume_id = ?', [$resume_id]);
         DB::delete(self::DB_TABLE_RESUME_EDUCATION, 'resume_id = ?', [$resume_id]);
     }
 
+    /**
+     * Create or edit category (if $id is'nt null)
+     *
+     * @param $name
+     * @param null $alt_name
+     * @param int $id
+     */
     static function createCategory($name, $alt_name = null, $id = 0)
     {
         $alt_name = !empty($alt_name) ? $alt_name : $name;
@@ -188,6 +223,11 @@ class Api
             DB::insert(self::DB_TABLE_RESUME_CATEGORY, $category);
     }
 
+    /**
+     * Delete category
+     *
+     * @param $category_id
+     */
     static function deleteCategory($category_id)
     {
         DB::delete(self::DB_TABLE_RESUME_CATEGORY, 'category_id = ?', [$category_id]);
