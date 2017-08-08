@@ -40,7 +40,7 @@ class Resume
                 }
                 else
                 {
-                    $this->view->unAuth(Handler::MODULE_NAME);
+                    \Core\System\SmartyProcessor::getInstance()->moduleDisplay('front/unAuth.tpl', \Modules\Users\Controller\Handler::MODULE_NAME);
                 }
             }
             else
@@ -105,7 +105,6 @@ class Resume
                 SmartyProcessor::getInstance()->assign($assign);
 
                 $this->view->edit(Handler::MODULE_NAME);
-
             }
             else
                 \Core\System\Request::e404();
@@ -163,7 +162,10 @@ class Resume
 
     function delete($id)
     {
-        $resume = DB::getRow(Api::DB_TABLE_RESUME, 'user_id = ? AND resume_id = ?', [User::getInstance()->getUserId(), $id]);
+        $resume = DB::getRow(Api::DB_TABLE_RESUME, 'user_id = ? AND resume_id = ?', [
+            User::getInstance()->getUserId(),
+            $id
+        ]);
         if( $resume )
         {
             Api::deleteResume($resume['resume_id']);
